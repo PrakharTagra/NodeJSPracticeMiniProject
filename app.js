@@ -26,7 +26,7 @@ app.use((req,res,next)=>{
 })
 
 app.get("/",(req,res)=>{
-    res.render("Index")
+    res.render("index")
 })
 
 app.post("/register",async (req,res)=>{
@@ -58,7 +58,7 @@ app.get("/logout",(req,res)=>{
 })
 
 app.get("/login",(req,res)=>{
-    res.render("Login")
+    res.render("login")
 })
 
 app.post("/login",async (req,res)=>{
