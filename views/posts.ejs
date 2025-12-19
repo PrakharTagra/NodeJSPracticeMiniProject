@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Posts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="overflow-hidden">
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+<main class="min-h-screen w-screen bg-gradient-to-br from-black via-gray-900 to-black p-10">
+
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
+      <h1 class="text-3xl font-extrabold text-white">My Posts</h1>
+      <div class="flex gap-3">
+        <a href="/user/<%=user._id%>"
+          class="bg-gray-700 text-white px-5 py-2 rounded-xl font-bold hover:bg-gray-600 transition">
+          Dashboard
+        </a>
+        <a href="/profile/<%=user._id%>"
+          class="bg-green-600 text-white px-5 py-2 rounded-xl font-bold hover:bg-green-700 transition">
+          View Profile
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <%user.posts.reverse().forEach(function(val){%>
+            <div class="bg-black/90 border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col">
+            <h2 class="text-xl font-bold text-blue-400 mb-2">
+                <%=val.posthead%>
+            </h2>
+            <p class="text-gray-300 text-sm leading-relaxed flex-1">
+                <%= val.postdata.length > 150 ? val.postdata.slice(0,150) + "..." : val.postdata %>
+            </p>
+            <p class="text-xs text-gray-500 mt-4">
+                Posted on <%= new Date(val.date).toDateString() %>
+            </p>
+            <div class="flex gap-3 mt-6">
+                <a href="/post/edit/<%=user._id%>/<%=val._id%>"
+                class="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-bold hover:bg-blue-700 transition">
+                Edit
+                </a>
+                <form action="/post/delete/<%=user._id%>/<%=val._id%>" method="POST" class="flex-1">
+                <button
+                    class="w-full bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700 transition"
+                    onclick="return confirm('Delete this post?')">
+                    Delete
+                </button>
+                </form>
+            </div>
+            </div>
+        <%})%>
+        </div>
+
+    <%if(user.posts.length === 0){%>
+        <p class="text-center text-gray-400 mt-20 text-lg">
+            You haven’t created any posts yet.
+        </p>
+    <%}%> 
+  </div>
+</main>
+</body>
+</html>

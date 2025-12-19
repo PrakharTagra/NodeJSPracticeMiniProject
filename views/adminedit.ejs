@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User • Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen flex items-center justify-center text-white">
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+  <!-- Card -->
+  <section class="w-[95%] max-w-xl bg-black border border-gray-700 rounded-2xl p-8 shadow-2xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="mb-8 text-center">
+      <h1 class="text-2xl font-extrabold text-blue-500">Admin • Edit User</h1>
+      <p class="text-gray-400 text-sm mt-1">
+        Modify user details carefully
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form action="/admin/edit/<%= user._id %>" method="POST" class="space-y-1">
+
+      <!-- Name -->
+      <div>
+        <label class="text-gray-400 text-sm">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          value="<%= user.name %>"
+          required
+          class="w-full mt-2 p-3 rounded-xl bg-gray-900 border border-gray-700
+          outline-none focus:border-blue-500 transition"
+        />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="text-gray-400 text-sm">Email</label>
+        <input
+          type="email"
+          name="email"
+          value="<%= user.email %>"
+          required
+          class="w-full mt-2 p-3 rounded-xl bg-gray-900 border border-gray-700
+          outline-none focus:border-blue-500 transition"
+        />
+      </div>
+
+      <!-- Mobile -->
+      <div>
+        <label class="text-gray-400 text-sm">Mobile Number</label>
+        <input
+          type="text"
+          name="mobile"
+          value="<%= user.mobile %>"
+          class="w-full mt-2 p-3 rounded-xl bg-gray-900 border border-gray-700
+          outline-none focus:border-blue-500 transition"
+        />
+      </div>
+
+      <!-- Gender -->
+      <div>
+        <label class="text-gray-400 text-sm">Gender</label>
+        <select
+          name="gender"
+          class="w-full mt-2 p-3 rounded-xl bg-gray-900 border border-gray-700
+          outline-none focus:border-blue-500 transition"
+        >
+          <option value="Male" <%= user.gender==="Male" ? "selected" : "" %>>Male</option>
+          <option value="Female" <%= user.gender==="Female" ? "selected" : "" %>>Female</option>
+          <option value="Other" <%= user.gender==="Other" ? "selected" : "" %>>Other</option>
+        </select>
+      </div>
+
+      <!-- Age -->
+      <div>
+        <label class="text-gray-400 text-sm">Age</label>
+        <input
+          type="number"
+          name="age"
+          value="<%= user.age %>"
+          class="w-full mt-2 p-3 rounded-xl bg-gray-900 border border-gray-700
+          outline-none focus:border-blue-500 transition"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-4 pt-4">
+        <button
+          type="submit"
+          class="flex-1 bg-blue-600 py-3 rounded-xl font-bold
+          hover:bg-blue-700 transition"
+        >
+          Save Changes
+        </button>
+
+        <a
+          href="/admindashboard"
+          class="flex-1 text-center bg-gray-700 py-3 rounded-xl font-bold
+          hover:bg-gray-600 transition"
+        >
+          Cancel
+        </a>
+      </div>
+
+    </form>
+
+  </section>
+
+</body>
+</html>

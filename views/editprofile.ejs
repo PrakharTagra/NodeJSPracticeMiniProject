@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+<main class="relative w-screen h-screen flex items-center justify-center
+bg-[url('/images/138125038_10287522.jpg')] bg-contain overflow-hidden">
+
+  <div class="absolute inset-0 bg-black/65"></div>
+
+  <section class="relative z-10 w-[95%] max-w-4xl border border-white/20 
+  rounded-3xl p-8 shadow-2xl bg-[url('/images/pexels-harun-tan-2311991-3980364.jpg')] bg-cover">
+
+    <div class="flex flex-col sm:flex-row items-center gap-6">
+
+      <div class="w-28 h-28 rounded-full bg-white text-black 
+      flex items-center justify-center text-4xl font-extrabold tracking-wider">
+        <%= name.split(" ").map(w => w[0]).join("").toUpperCase() %>
+      </div>
+
+      <div class="text-center sm:text-left">
+        <h1 class="text-3xl font-extrabold text-white tracking-wide">
+          Edit Profile
+        </h1>
+        <p class="text-gray-300 mt-1">
+          Update your personal information
+        </p>
+      </div>
+
+    </div>
+
+    <div class="h-px bg-white/20 my-4"></div>
+
+    <form action="/editprofile/<%=id%>" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+      <div class="p-5 bg-black/90 rounded-xl">
+        <label class="text-gray-400 text-sm">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          value="<%= name %>"
+          class="w-full mt-2 bg-transparent border-b border-gray-500 
+          outline-none text-white text-lg font-semibold"
+        />
+      </div>
+
+      <div class="p-5 bg-black/90 rounded-xl">
+        <label class="text-gray-400 text-sm">Email</label>
+        <input
+          type="email"
+          name="email"
+          value="<%= email %>"
+          class="w-full mt-2 bg-transparent border-b border-gray-500 
+          outline-none text-white text-lg font-semibold"
+        />
+      </div>
+
+      <div class="p-5 bg-black/90 rounded-xl">
+        <label class="text-gray-400 text-sm">Mobile Number</label>
+        <input
+          type="text"
+          name="mobile"
+          value="<%= mobile %>"
+          class="w-full mt-2 bg-transparent border-b border-gray-500 
+          outline-none text-white text-lg font-semibold"
+        />
+      </div>
+
+      <div class="p-5 bg-black/90 rounded-xl">
+        <label class="text-gray-400 text-sm">Gender</label>
+        <select
+          name="gender"
+          class="w-full mt-2 bg-black border-b border-gray-500 
+          outline-none text-white text-lg font-semibold"
+        >
+          <option value="Male" <%= gender === "Male" ? "selected" : "" %>>Male</option>
+          <option value="Female" <%= gender === "Female" ? "selected" : "" %>>Female</option>
+          <option value="Other" <%= gender === "Other" ? "selected" : "" %>>Other</option>
+        </select>
+      </div>
+
+      <div class="p-5 bg-black/90 rounded-xl sm:col-span-2">
+        <label class="text-gray-400 text-sm">Age</label>
+        <input
+          type="number"
+          name="age"
+          value="<%= age %>"
+          class="w-full mt-2 bg-transparent border-b border-gray-500 
+          outline-none text-white text-lg font-semibold"
+        />
+      </div>
+
+      <div class="sm:col-span-2 flex flex-col sm:flex-row gap-4 mt-2">
+        <button
+          type="submit"
+          class="flex-1 bg-white text-black font-bold py-3 rounded-xl 
+          hover:bg-gray-200 transition"
+        >
+          Save Changes
+        </button>
+
+        <a
+          href="/profile/<%=id%>"
+          class="flex-1 bg-gray-700 text-white font-bold py-3 rounded-xl 
+          hover:bg-gray-600 transition flex items-center justify-center"
+        >
+          Cancel
+        </a>
+      </div>
+
+    </form>
+
+  </section>
+
+</main>
+
+</body>
+</html>

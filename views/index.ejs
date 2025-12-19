@@ -1,0 +1,125 @@
+<!-- tailwindcss -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        tailwind.config = {}
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+        <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+        <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+    <main class="w-screen h-screen flex justify-center overflow-hidden bg-[url(/images/10181724.jpg)] bg-no-repeat bg-cover">
+        <div class="w-1/2 mx-auto mt-2 border-2 bg-white/20 backdrop-blur-xl 
+        border-white/20 shadow-2xl rounded-xl h-[97%] text-black">
+            <div class="text-3xl text-center font-extrabold tracking-wide py-4">
+                CREATE ACCOUNT
+            </div>
+            <form class="w-full px-10 space-y-5" method="post" action="/register">
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold placeholder:text-gray-600 focus:bg-gray-100"
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold placeholder:text-gray-600 focus:bg-gray-100"
+                    required
+                />
+                <input
+                    type="tel"
+                    name="mobile"
+                    placeholder="Mobile Number"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold placeholder:text-gray-600 focus:bg-gray-100"
+                    required
+                />
+                <select
+                    name="gender"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold bg-white focus:bg-gray-100"
+                    required
+                >
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold placeholder:text-gray-600 focus:bg-gray-100"
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="w-full p-3 border-2 border-black outline-none font-semibold placeholder:text-gray-600 focus:bg-gray-100"
+                    required
+                />
+                <button
+                    type="submit"
+                    class="w-full bg-black text-white py-3 text-lg font-bold tracking-widest hover:bg-gray-900 transition-all"
+                >
+                    CREATE ACCOUNT
+                </button>
+                <p class="text-center font-semibold mt-4">   
+                    Already have an account?
+                    <a href="/login" class="underline font-bold hover:text-gray-700">
+                        Login
+                    </a>
+                </p>
+                <p class="text-center font-semibold">   
+                    Admin Access?
+                    <a href="/admin" class="underline font-bold hover:text-gray-700">
+                        Admin Dashboard
+                    </a>
+                </p>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

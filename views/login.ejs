@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+<main class="w-screen h-screen flex justify-center items-center 
+bg-[url('/images/126098491_10187403.jpg')] bg-cover bg-center bg-no-repeat">
+  <div class="absolute inset-0 bg-black/60"></div>
+  <div class="relative z-10 w-[90%] max-w-md bg-white/10 backdrop-blur-xl 
+  border border-white/20 rounded-2xl p-8 shadow-2xl">
+
+    <h1 class="text-3xl font-extrabold text-white text-center tracking-wide">
+      Welcome Back
+    </h1>
+    <p class="text-gray-300 text-center mt-2">
+      Login to continue
+    </p>
+
+    <form class="mt-8 space-y-5" method="post" action="/login">
+      <input 
+        type="email"
+        name="email" 
+        placeholder="Email Address"
+        class="w-full p-3 rounded-lg bg-transparent border-2 border-white/30 
+        text-white placeholder:text-gray-300 outline-none 
+        focus:border-white transition"
+        required
+      />
+      <input 
+        type="password" 
+        name="password"
+        placeholder="Password"
+        class="w-full p-3 rounded-lg bg-transparent border-2 border-white/30 
+        text-white placeholder:text-gray-300 outline-none 
+        focus:border-white transition"
+        required
+      />
+      <button 
+        type="submit"
+        class="w-full bg-white text-black font-bold py-3 rounded-lg 
+        hover:bg-gray-200 transition tracking-wide">
+        LOGIN
+      </button>
+    </form>
+    <p class="text-center text-gray-300 mt-6">
+      Don’t have an account?
+      <a href="/" class="text-white font-semibold hover:underline">
+        Create one
+      </a>
+    </p>
+    <p class="text-center text-gray-300 mt-6">
+      Admin Access?
+      <a href="/admin" class="text-white font-semibold hover:underline">
+        Admin Dashboard
+      </a>
+    </p>
+  </div>
+</main>
+</body>
+</html>

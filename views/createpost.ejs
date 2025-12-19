@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Post</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+<main class="w-screen h-screen flex items-center justify-center
+bg-[url('/images/4394547_3171.jpg')] bg-contain bg-bottom">
+  <section class="w-[95%] max-w-2xl bg-black/90 border border-white/10
+  rounded-3xl p-10 shadow-2xl">
+    <h1 class="text-3xl font-extrabold text-white text-center mb-8">
+      Create a New Post
+    </h1>
+    <form action="/post/create/<%=user._id%>" method="POST" class="space-y-6">
+      <div>
+        <label class="text-gray-400 text-sm">Post Heading</label>
+        <textarea
+          name="posthead"
+          rows="2"
+          required
+          class="w-full mt-2 p-4 rounded-xl bg-gray-900 border border-gray-700
+          text-white outline-none resize-none focus:border-blue-500 transition"
+          placeholder="Enter post heading..."></textarea>
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Write Your Post</label>
+        <textarea
+          name="postdata"
+          rows="7"
+          required
+          class="w-full mt-2 p-4 rounded-xl bg-gray-900 border border-gray-700
+          text-white outline-none resize-none focus:border-blue-500 transition"
+          placeholder="Write your thoughts here..."></textarea>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
+        <button
+          type="submit"
+          class="flex-1 bg-blue-600 text-white py-3 rounded-xl
+          font-bold hover:bg-blue-700 transition">
+          Submit Post
+        </button>
+        <a
+          href="/user/<%=user._id%>"
+          class="flex-1 text-center bg-gray-700 text-white py-3 rounded-xl
+          font-bold hover:bg-gray-600 transition">
+          Back to Dashboard
+        </a>
+      </div>
+    </form>
+  </section>
+</main>
+</body>
+</html>

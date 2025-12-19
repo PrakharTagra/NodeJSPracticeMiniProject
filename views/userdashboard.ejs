@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+  <nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <%if(user){%>
+      <a href="/user/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-yellow-600
+             rounded-xl hover:bg-yellow-700 transition text-center">
+      Home
+    </a>
+      <a href="/profile/<%= user._id %>"
+      class="px-4 py-2 text-sm font-bold text-white bg-green-600
+             rounded-xl hover:bg-green-700 transition text-center">
+      Profile
+    </a>
+    <a href="/posts/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-gray-700
+             rounded-xl hover:bg-gray-600 transition text-center">
+      My Posts
+    </a>
+
+    <a href="/post/create/<%=user._id%>"
+      class="px-4 py-2 text-sm font-bold text-white bg-purple-600
+             rounded-xl hover:bg-purple-700 transition text-center">
+      Create Post
+    </a>
+    <%}else{%><a href="/"
+      class="px-4 py-2 text-sm font-bold text-white bg-indigo-600
+             rounded-xl hover:bg-indigo-700 transition text-center">
+      Login/Register
+    </a><%}%>
+    <a href="/admin"
+      class="px-4 py-2 text-sm font-bold text-white bg-red-600
+             rounded-xl hover:bg-red-700 transition text-center">
+      Admin
+    </a>
+  </div>
+</nav>
+
+
+<main class="w-screen h-screen flex items-center justify-center bg-[url('/images/4393823_3162.jpg')] bg-cover">
+
+  <section class="w-[95%] max-w-lg bg-black border border-white/10
+  rounded-3xl p-10 text-center shadow-2xl">
+
+    <h1 class="text-4xl font-extrabold text-white mb-3">
+      Hello, <span class="text-blue-400"><%= user.name %></span> 👋
+    </h1>
+
+    <p class="text-gray-300 text-lg leading-relaxed mt-4">
+        Welcome aboard! You’re all set to share your thoughts, create posts,
+        and revisit everything you’ve built so far.
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+      <a href="/post/create/<%=user._id%>"
+        class="bg-blue-600 text-white py-3 rounded-xl
+        font-bold hover:bg-blue-700 transition">
+        Create Post
+      </a>
+
+      <a href="/posts/<%=user._id%>"
+        class="bg-gray-700 text-white py-3 rounded-xl
+        font-bold hover:bg-gray-600 transition">
+        My Posts
+      </a>
+
+      <a href="/profile/<%= user.id %>"
+        class="bg-green-600 text-white py-3 rounded-xl
+        font-bold hover:bg-green-700 transition">
+        View Profile
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+</body>
+</html>
