@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -99,5 +99,111 @@
     <%}%> 
   </div>
 </main>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Posts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="overflow-hidden">
+
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl flex flex-col gap-3 p-4">
+    <% if (user) { %>
+      <a href="/user/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-yellow-600 rounded-xl text-center">Home</a>
+      <a href="/profile/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-green-600 rounded-xl text-center">Profile</a>
+      <a href="/posts/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-gray-700 rounded-xl text-center">My Posts</a>
+      <a href="/post/create/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-purple-600 rounded-xl text-center">Create Post</a>
+    <% } else { %>
+      <a href="/" class="px-4 py-2 text-sm font-bold text-white bg-indigo-600 rounded-xl text-center">Login/Register</a>
+    <% } %>
+    <a href="/admin" class="px-4 py-2 text-sm font-bold text-white bg-red-600 rounded-xl text-center">Admin</a>
+  </div>
+</nav>
+
+<main class="min-h-screen w-screen bg-gradient-to-br from-black via-gray-900 to-black p-10">
+
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-10">
+      <h1 class="text-3xl font-extrabold text-white">My Posts</h1>
+      <div class="flex gap-3">
+        <a href="/user/<%= user._id %>" class="bg-gray-700 text-white px-5 py-2 rounded-xl font-bold">Dashboard</a>
+        <a href="/profile/<%= user._id %>" class="bg-green-600 text-white px-5 py-2 rounded-xl font-bold">View Profile</a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <% user.posts.reverse().forEach(function(val){ %>
+        <div class="bg-black/90 border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col">
+
+          <h2 class="text-xl font-bold text-blue-400 mb-2"><%= val.posthead %></h2>
+
+          <p class="text-gray-300 text-sm flex-1">
+            <%= val.postdata.length > 150 ? val.postdata.slice(0,150) + "..." : val.postdata %>
+          </p>
+
+          <p class="text-xs text-gray-500 mt-4">
+            Posted on <%= new Date(val.date).toDateString() %>
+          </p>
+
+          <div class="mt-4">
+            <button onclick="openLikes('<%= val._id %>')" class="text-sm text-pink-400 font-bold">
+              ❤️ Liked by (<%= val.likes.length %>)
+            </button>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <a href="/post/edit/<%= user._id %>/<%= val._id %>" class="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-bold">Edit</a>
+            <form action="/post/delete/<%= user._id %>/<%= val._id %>" method="POST" class="flex-1">
+              <button class="w-full bg-red-600 text-white py-2 rounded-lg font-bold">Delete</button>
+            </form>
+          </div>
+
+        </div>
+
+        <div id="likes-<%= val._id %>" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+          <div class="bg-black border border-white/10 rounded-2xl w-[90%] max-w-md p-6 text-white relative">
+            <button onclick="closeLikes('<%= val._id %>')" class="absolute top-3 right-4 text-xl">✕</button>
+            <h3 class="text-xl font-bold mb-4">
+              ❤️ <%= val.likes.length %> Likes
+            </h3>
+            <div class="space-y-2 max-h-60 overflow-y-auto">
+              <% post.likes.forEach(function(like){ %>
+                <p class="text-gray-300">@<%= like.name %></p>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+
+      <% }) %>
+
+    </div>
+
+    <% if (user.posts.length === 0) { %>
+      <p class="text-center text-gray-400 mt-20 text-lg">
+        You haven’t created any posts yet.
+      </p>
+    <% } %>
+
+  </div>
+
+</main>
+
+<script>
+  function openLikes(id) {
+    document.getElementById("likes-" + id).classList.remove("hidden")
+    document.getElementById("likes-" + id).classList.add("flex")
+  }
+  function closeLikes(id) {
+    document.getElementById("likes-" + id).classList.add("hidden")
+  }
+</script>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -85,6 +85,92 @@
     </div>
 
   </section>
+
+</main>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
+
+<nav class="fixed right-6 top-1/2 -translate-y-1/2 z-50">
+  <div class="bg-black/90 border border-white/10 rounded-2xl shadow-xl
+              flex flex-col gap-3 p-4">
+    <% if (user) { %>
+      <a href="/user/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-yellow-600 rounded-xl text-center">Home</a>
+      <a href="/profile/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-green-600 rounded-xl text-center">Profile</a>
+      <a href="/posts/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-gray-700 rounded-xl text-center">My Posts</a>
+      <a href="/post/create/<%= user._id %>" class="px-4 py-2 text-sm font-bold text-white bg-purple-600 rounded-xl text-center">Create Post</a>
+    <% } else { %>
+      <a href="/" class="px-4 py-2 text-sm font-bold text-white bg-indigo-600 rounded-xl text-center">Login / Register</a>
+    <% } %>
+    <a href="/admin" class="px-4 py-2 text-sm font-bold text-white bg-red-600 rounded-xl text-center">Admin</a>
+  </div>
+</nav>
+
+<header class="sticky top-0 z-40 bg-black/90 border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-extrabold text-white">Community Feed</h1>
+    <div class="flex gap-3">
+      <a href="/post/create/<%= user._id %>" class="bg-blue-600 text-white px-5 py-2 rounded-xl font-bold">Create Post</a>
+      <a href="/posts/<%= user._id %>" class="bg-gray-700 text-white px-5 py-2 rounded-xl font-bold">My Posts</a>
+      <a href="/profile/<%= user._id %>" class="bg-green-600 text-white px-5 py-2 rounded-xl font-bold">Profile</a>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 py-10">
+
+  <div class="grid grid-cols-1 gap-8">
+
+    <% posts.forEach(function(post){ %>
+      <div class="bg-black/90 border border-white/10 rounded-2xl p-6 shadow-xl">
+
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-blue-400"><%= post.posthead %></h2>
+            <p class="text-sm text-gray-400">by <%= post.user.name %></p>
+          </div>
+          <p class="text-xs text-gray-500"><%= new Date(post.date).toDateString() %></p>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed">
+          <%= post.postdata.length > 300 ? post.postdata.slice(0,300) + "..." : post.postdata %>
+        </p>
+
+        <div class="text-white mt-6 mb-2">
+          <%if(post.likes.length===1){%>
+            <%=post.likes.length%> Like
+
+            <%}else{%>
+              <%=post.likes.length%> Likes
+              <%}%>
+        </div>
+        <div class="flex gap-3">
+          <a href="/post/like/<%=post._id%>/<%=user._id%>" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold"><%if(post.likes.indexOf(user._id)===-1){%>
+            Like
+            <%}else{%>
+              Unlike
+              <%}%></a>
+        </div>
+      </div>
+    <% }) %>
+
+    <% if (posts.length === 0) { %>
+      <p class="text-center text-gray-400 text-lg mt-20">
+        No posts available yet.
+      </p>
+    <% } %>
+
+  </div>
 
 </main>
 

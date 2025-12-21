@@ -164,7 +164,8 @@ app.post("/admin/edit/:id",async (req,res)=>{
 
 app.get("/user/:id",isLoggedIn,async (req,res)=>{
     let user = await userModel.findOne({_id:req.params.id})
-    res.render("userdashboard",{user})
+    let posts = await postModel.find().populate("user")
+    res.render("userdashboard",{user,posts})
 })
 
 app.get("/post/create/:id",async (req,res)=>{
@@ -187,7 +188,8 @@ app.post("/post/create/:id",async (req,res)=>{
 
 app.get("/posts/:id",async(req,res)=>{
     let user = await userModel.findOne({_id:req.params.id}).populate("posts")
-    res.render("posts",{user})
+    let post = await postModel.findOne({_id:user.posts}).populate("likes")
+    res.render("posts",{user,post})
 })
 
 app.get("/post/edit/:userid/:postid", async (req,res)=>{
@@ -208,6 +210,21 @@ app.post("/post/delete/:userid/:postid",async (req,res)=>{
     user.posts.pull(post._id)
     user.save()
     res.redirect(`/posts/${req.params.userid}`)
+})
+
+app.get("/post/like/:postid/:userid",async (req,res)=>{
+    let users = await userModel.findOne({_id:req.params.userid})
+    let post = await postModel.findOne({_id:req.params.postid})
+    
+    if(post.likes.indexOf(req.params.userid)===-1){
+        post.likes.push(req.params.userid)
+    }
+    else{
+        post.likes.splice(post.likes.indexOf(req.params.userid),1)
+    }
+
+    await post.save()
+    res.redirect(`/user/${req.params.userid}`)
 })
 
 const PORT = process.env.PORT || 3000;
