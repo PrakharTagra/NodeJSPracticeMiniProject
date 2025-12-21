@@ -155,7 +155,7 @@ app.get("/admin/edit/:id",async(req,res)=>{
 app.post("/admin/edit/:id",async (req,res)=>{
     let {name,email,mobile,gender,age} = req.body
     let user = await userModel.findOne({email})
-    if(user) return res.redirect("/error")
+    if(!user) return res.redirect("/error")
     else{
         let user = await userModel.findOneAndUpdate({_id:req.params.id},{name,email,mobile,age,gender},{new:true})
         res.redirect(`/admindashboard`)
