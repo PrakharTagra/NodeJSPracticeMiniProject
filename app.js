@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const user = require('./models/user')
+const upload = require('./config/multerconfig')
 
 app.use(cookieParser()) 
 app.set("view engine","ejs")
@@ -78,7 +79,7 @@ app.post("/login",async (req,res)=>{
 
 app.get("/profile/:id",isLoggedIn,async (req,res)=>{
     let user = await userModel.findOne({_id:req.params.id})
-    res.render("profile",{name:user.name,email:user.email,mobile:user.mobile,gender:user.gender,age:user.age,id:req.params.id})
+    res.render("profile",{name:user.name,email:user.email,mobile:user.mobile,gender:user.gender,age:user.age,id:req.params.id,profilepic:user.profilepic})
 })
 
 app.get("/error",(req,res)=>{
@@ -110,6 +111,13 @@ app.post("/editprofile/:id", async (req,res)=>{
         let user = await userModel.findOneAndUpdate({_id:req.params.id},{name,email,mobile,age,gender},{new:true})
         res.redirect(`/profile/${user._id}`)
     }
+})
+
+app.post("/profilepic/:id",upload.single("image"),async (req,res)=>{
+   const user = await userModel.findOne({_id:req.params.id})
+   user.profilepic = req.file.filename
+   user.save()
+   res.redirect(`/profile/${req.params.id}`)
 })
 
 app.get("/admin",(req,res)=>{
